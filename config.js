@@ -2,27 +2,29 @@
 
 const envirnments = {};
 
-// Development default env
-envirnments.development = {
+// Development Envirnment
+envirnments["development"] = {
   port: 3000,
   envName: "development",
 };
 
+// Testing Envirnment
+envirnments["testing"] = {
+  port: 8080,
+  envName: "testing",
+};
+
 // Production Envirnment
-envirnments.production = {
+envirnments["production"] = {
   port: 5000,
   envName: "production",
 };
 
 // Determine which one is to be exported out
-const currentEnv =
-  typeof process.env.NODE_ENV == "string"
-    ? process.env.NODE_ENV.toLowerCase
-    : "";
-
-// Checking which env to choose
-const exportEnv = typeof (envirnments[currentEnv] == "object"
-  ? envirnments[currentEnv]
-  : envirnments.development);
+if (envirnments[process.env.NODE_ENV.toLowerCase()]) {
+  var exportEnv = envirnments[process.env.NODE_ENV];
+} else {
+  var exportEnv = envirnments["development"];
+}
 
 module.exports = exportEnv;

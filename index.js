@@ -34,10 +34,11 @@ const server = http.createServer(function (req, res) {
     payload += decoder.end();
 
     // choose the handler
-    const ChoosenHandler =
-      typeof router[trimmed] !== undefined
-        ? router[trimmed]
-        : handlers.notFound;
+    if (router[trimmed] != undefined) {
+      var ChoosenHandler = router[trimmed];
+    } else {
+      var ChoosenHandler = router["notFound"];
+    }
 
     // choose the data object, This is the data that needs to be sent to thr handler
     const data = {
@@ -69,7 +70,7 @@ const server = http.createServer(function (req, res) {
   });
 });
 // start the server
-server.listen(config.port, hostname, function () {
+server.listen(3000, hostname, function () {
   console.log(
     `server running at http://${hostname}/${config.port} in ${config.envName} mode`
   );
@@ -92,4 +93,5 @@ handlers.notFound = function (data, callback) {
 // Define a request router
 const router = {
   api: handlers.api,
+  notFound: handlers.notFound,
 };

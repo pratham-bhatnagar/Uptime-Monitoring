@@ -1,30 +1,49 @@
 const http = require("http");
+const https = require("https");
 const url = require("url");
 const stringDecoder = require("string_decoder").StringDecoder;
 const config = require("./config");
+const fs = require("fs");
 
-const hostname = "127.0.0.1";
+const hostname = "localhost";
 
-const server = http.createServer(function (req, res) {
-  // Parsing the url
+// Create a http server
+const httpServer = http.createServer(function (req, res) {
+  unifiedServer(req, res);
+});
+
+// start the Http server
+httpServer.listen(config.httpPort, hostname, function () {
+  console.log(
+    `HTTP Server running at http://${hostname}:${config.httpPort} in ${config.envName} MODE`
+  );
+});
+
+// Create a Https Server
+// self assigned certificates might not work
+var httpsServerOptions = {
+  key: fs.readFileSync("./https/key.pem"),
+  cert: fs.readFileSync("./https/cert.pem"),
+};
+
+const httpsServer = https.createServer(httpsServerOptions, function (res, req) {
+  unifiedServer(req, res);
+});
+// Start the Https Server
+httpsServer.listen(config.httpsPort, hostname, function () {
+  console.log(
+    `HTTPS Server running at https://${hostname}:${config.httpsPort} in ${config.envName} MODE`
+  );
+});
+
+// All the logic for both http and https server
+var unifiedServer = function (req, res) {
   const parsed = url.parse(req.url, true);
-
-  // getting the pathname
   const path = parsed.pathname;
-
-  // removing extra slashes
   const trimmed = path.replace(/^\/+|\/+$/g, "");
-
-  // getting the method of req
   const method = req.method.toLowerCase();
-
-  // Getting the query for req
   const resQuery = parsed.query;
-
-  // getting the headers
   const headers = req.headers;
-
-  // Get the payloads, if any
   const decoder = new stringDecoder("utf-8");
   payload = "";
   req.on("data", (data) => {
@@ -33,14 +52,12 @@ const server = http.createServer(function (req, res) {
   req.on("end", () => {
     payload += decoder.end();
 
-    // choose the handler
     if (router[trimmed] != undefined) {
       var ChoosenHandler = router[trimmed];
     } else {
       var ChoosenHandler = router["notFound"];
     }
 
-    // choose the data object, This is the data that needs to be sent to thr handler
     const data = {
       path: trimmed,
       method: method,
@@ -50,10 +67,7 @@ const server = http.createServer(function (req, res) {
     };
 
     ChoosenHandler(data, function (statusCode, response) {
-      // Setting up a default status code, if handler does'nt respond with any status code
-      statusCode = typeof statusCode === "number" ? statusCode : 200;
-
-      // Setting up a default Response
+      statusCode = typeof statusCode === "number" ? statusCode : 404;
       response = typeof response === "object" ? response : { empty: "obj" };
 
       // Convert the response to a string
@@ -68,30 +82,24 @@ const server = http.createServer(function (req, res) {
       );
     });
   });
-});
-// start the server
-server.listen(3000, hostname, function () {
-  console.log(
-    `server running at http://${hostname}/${config.port} in ${config.envName} mode`
-  );
-});
+};
 
-// define a handlers
 const handlers = {};
 
-// sample handlers
+handlers.ping = function (data, callback) {
+  callback(200);
+};
+
 handlers.api = function (data, callback) {
-  // callback a http status code and a payload
   callback(406, { name: "sample API" });
 };
 
-// not found handler
 handlers.notFound = function (data, callback) {
   callback(404);
 };
 
-// Define a request router
 const router = {
+  "api/ping": handlers.ping,
   api: handlers.api,
   notFound: handlers.notFound,
 };

@@ -1,9 +1,9 @@
 const http = require("http");
 const url = require("url");
 const stringDecoder = require("string_decoder").StringDecoder;
+const config = require("./config");
 
 const hostname = "127.0.0.1";
-const port = "3000";
 
 const server = http.createServer(function (req, res) {
   // Parsing the url
@@ -34,12 +34,12 @@ const server = http.createServer(function (req, res) {
     payload += decoder.end();
 
     // choose the handler
-    const choosenHandler =
+    const ChoosenHandler =
       typeof router[trimmed] !== undefined
         ? router[trimmed]
         : handlers.notFound;
 
-    // choose the data object
+    // choose the data object, This is the data that needs to be sent to thr handler
     const data = {
       path: trimmed,
       method: method,
@@ -48,37 +48,48 @@ const server = http.createServer(function (req, res) {
       query: resQuery,
     };
 
-    choosenHandler(data, function (statusCode, response) {
+    ChoosenHandler(data, function (statusCode, response) {
+      // Setting up a default status code, if handler does'nt respond with any status code
       statusCode = typeof statusCode === "number" ? statusCode : 200;
-      response = typeof response === "object" ? response : {};
 
+      // Setting up a default Response
+      response = typeof response === "object" ? response : { empty: "obj" };
+
+      // Convert the response to a string
       const responseString = JSON.stringify(response);
+
+      // Return the response
+      res.setHeader("Content-Type", "application/json");
       res.writeHead(statusCode);
       res.end(`${responseString}`);
-      console.log(`returning response ${statusCode} and ${responseString}`);
+      console.log(
+        `Returning Status Code: ${statusCode} and Response: ${responseString}`
+      );
     });
   });
 });
 // start the server
-server.listen(port, hostname, () => {
-  console.log(`server running at http://${hostname}/${port}`);
+server.listen(config.port, hostname, function () {
+  console.log(
+    `server running at http://${hostname}/${config.port} in ${config.envName} mode`
+  );
 });
 
-// define a handler
+// define a handlers
 const handlers = {};
 
-// samplle handlers
-handlers.sample = (data, callback) => {
-  // http status code , and a response
-  callback(406, { name: "sample handler" });
+// sample handlers
+handlers.api = function (data, callback) {
+  // callback a http status code and a payload
+  callback(406, { name: "sample API" });
 };
 
 // not found handler
-handlers.notFound = (data, callback) => {
+handlers.notFound = function (data, callback) {
   callback(404);
 };
 
 // Define a request router
 const router = {
-  sample: handlers.sample,
+  api: handlers.api,
 };

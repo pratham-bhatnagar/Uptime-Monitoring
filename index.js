@@ -6,6 +6,7 @@ const config = require("./config");
 const fs = require("fs");
 const _data = require("./lib/data");
 const handlers = require("./lib/handlers");
+const helpers = require("./lib/helpers");
 
 const hostname = "localhost";
 
@@ -53,7 +54,6 @@ var unifiedServer = function (req, res) {
   });
   req.on("end", () => {
     payload += decoder.end();
-
     if (router[trimmed] != undefined) {
       var ChoosenHandler = router[trimmed];
     } else {
@@ -63,13 +63,13 @@ var unifiedServer = function (req, res) {
     const data = {
       path: trimmed,
       method: method,
-      payload: payload,
+      payload: helpers.parseJsonToObject(payload),
       headers: headers,
       query: resQuery,
     };
 
     ChoosenHandler(data, function (statusCode, response) {
-      statusCode = typeof statusCode === "number" ? statusCode : 404;
+      statusCode = typeof statusCode === "number" ? statusCode : 500;
       response = typeof response === "object" ? response : { empty: "obj" };
 
       // Convert the response to a string
@@ -87,7 +87,8 @@ var unifiedServer = function (req, res) {
 };
 
 const router = {
-  "api/ping": handlers.ping,
+  users: handlers.users,
+  ping: handlers.ping,
   api: handlers.api,
   notFound: handlers.notFound,
 };

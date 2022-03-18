@@ -10,6 +10,7 @@ envirnments["development"] = {
   httpsPort: 3001,
   envName: "development",
   hashingSecret: "secret",
+  maxChecks: 5,
 };
 
 // Production Envirnment
@@ -18,6 +19,7 @@ envirnments["production"] = {
   httpsPort: 5001,
   envName: "production",
   hashingSecret: "secret",
+  maxChecks: 5,
 };
 
 // Determine which one is to be exported out

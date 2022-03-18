@@ -91,4 +91,5 @@ const router = {
   ping: handlers.ping,
   api: handlers.api,
   notFound: handlers.notFound,
+  tokens: handlers.tokens,
 };

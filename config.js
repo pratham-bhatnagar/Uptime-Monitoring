@@ -11,9 +11,9 @@ envirnments["development"] = {
   hashingSecret: process.env.hashingSecret,
   maxChecks: 5,
   twilio: {
-    accountSid: process.env.twilioAccountSID,
-    authToken: process.env.twilioAuthToken,
-    fromPhone: process.env.twilioPhoneNumber,
+    accountSid: process.env.TWILIO_ACCOUNTSID,
+    authToken: process.env.TWILIO_AUTHTOKEN,
+    fromPhone: process.env.TWILIO_PHONENUMBER,
   },
 };
 
@@ -25,9 +25,9 @@ envirnments["production"] = {
   hashingSecret: process.env.hashingSecret,
   maxChecks: 5,
   twilio: {
-    accountSid: process.env.twilioAccountSID,
-    authToken: process.env.twilioAuthToken,
-    fromPhone: process.env.twilioPhoneNumber,
+    accountSid: process.env.TWILIO_ACCOUNTSID,
+    authToken: process.env.TWILIO_AUTHTOKEN,
+    fromPhone: process.env.TWILIO_PHONENUMBER,
   },
 };
 

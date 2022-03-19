@@ -10,6 +10,10 @@ const helpers = require("./lib/helpers");
 
 const hostname = "localhost";
 
+helpers.sendTwilioSms("8278836486", "Hello", function (err) {
+  console.log(err);
+});
+
 // Create a http server
 const httpServer = http.createServer(function (req, res) {
   unifiedServer(req, res);

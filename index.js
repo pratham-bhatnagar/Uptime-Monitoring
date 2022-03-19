@@ -9,9 +9,10 @@ const helpers = require("./lib/helpers");
 
 const hostname = "localhost";
 
-// helpers.sendTwilioSms("8278836486", "Hello", function (err) {
-//   console.log(err);
-// });
+helpers.sendTwilioSms("8278836406", "hello There", function (status, response) {
+  console.log("Status Code: " + status);
+  console.log(response);
+});
 
 // Create a http server
 const httpServer = http.createServer(function (req, res) {

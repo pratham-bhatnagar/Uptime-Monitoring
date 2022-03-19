@@ -2,17 +2,16 @@ const http = require("http");
 const https = require("https");
 const url = require("url");
 const stringDecoder = require("string_decoder").StringDecoder;
-const config = require("./config");
 const fs = require("fs");
-const _data = require("./lib/data");
+const config = require("./config");
 const handlers = require("./lib/handlers");
 const helpers = require("./lib/helpers");
 
 const hostname = "localhost";
 
-helpers.sendTwilioSms("8278836486", "Hello", function (err) {
-  console.log(err);
-});
+// helpers.sendTwilioSms("8278836486", "Hello", function (err) {
+//   console.log(err);
+// });
 
 // Create a http server
 const httpServer = http.createServer(function (req, res) {

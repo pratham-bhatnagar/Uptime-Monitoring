@@ -2,7 +2,6 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const envirnments = {};
-// @TODO - Put hashing secret in an .envfile
 
 // Development Envirnment
 envirnments["development"] = {
@@ -11,6 +10,11 @@ envirnments["development"] = {
   envName: "development",
   hashingSecret: process.env.hashingSecret,
   maxChecks: 5,
+  twilio: {
+    accountSid: process.env.twilioAccountSID,
+    authToken: process.env.twilioAuthToken,
+    fromPhone: process.env.twilioPhoneNumber,
+  },
 };
 
 // Production Envirnment
@@ -20,6 +24,11 @@ envirnments["production"] = {
   envName: "production",
   hashingSecret: process.env.hashingSecret,
   maxChecks: 5,
+  twilio: {
+    accountSid: process.env.twilioAccountSID,
+    authToken: process.env.twilioAuthToken,
+    fromPhone: process.env.twilioPhoneNumber,
+  },
 };
 
 // Determine which one is to be exported out

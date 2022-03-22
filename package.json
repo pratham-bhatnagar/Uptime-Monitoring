@@ -1,6 +1,15 @@
 {
+  "license": "MIT",
   "dependencies": {
     "dotenv": "^16.0.0",
     "twilio": "^3.75.1"
+  },
+  "scripts": {
+    "workers": "SET NODE_DEBUG=workers",
+    "server": "SET NODE_DEBUG=server",
+    "dev": "yarn watch && SET NODE_DEBUG=none",
+    "debug-workers": "yarn workers && yarn watch",
+    "debug-server": "yarn server && yarn watch",
+    "watch": "node index.js"
   }
 }

@@ -11,6 +11,6 @@
     "debug-workers": "yarn workers && yarn watch",
     "debug-server": "yarn server && yarn watch",
     "watch": "node index.js",
-    "start":"node index.js"
+    "start":"node index.js && yarn"
   }
 }

@@ -10,6 +10,7 @@
     "dev": "yarn watch && SET NODE_DEBUG=none",
     "debug-workers": "yarn workers && yarn watch",
     "debug-server": "yarn server && yarn watch",
-    "watch": "node index.js"
+    "watch": "node index.js",
+    "start":"node index.js"
   }
 }

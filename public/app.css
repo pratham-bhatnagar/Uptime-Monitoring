@@ -4,6 +4,7 @@
  */
 
 /* Resets */
+
 body,
 p,
 h1,
@@ -39,6 +40,11 @@ textarea {
   text-decoration: none;
   color: #1a1a1a;
   border-width: 0;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  background-color: transparent;
 }
 
 .clear {
@@ -112,6 +118,54 @@ body.loggedIn .header ul li.loggedOut {
   width: 100%;
   background-color: #1a1a1a;
   padding: 50px 0;
+  text-align: center;
+  border-width: 1px 0 0 0;
+  border-color: #fff;
+  border-style: solid;
+}
+
+.index .footer {
+  width: 100%;
+  background-color: #1a1a1a;
+  padding: 50px 0;
+  bottom: 0;
+  position: absolute;
+  text-align: center;
+  border-width: 1px 0 0 0;
+  border-color: #fff;
+  border-style: solid;
+}
+
+.checksList .footer {
+  width: 100%;
+  background-color: #1a1a1a;
+  padding: 50px 0;
+  bottom: 0;
+  position: absolute;
+  text-align: center;
+  border-width: 1px 0 0 0;
+  border-color: #fff;
+  border-style: solid;
+}
+
+.accountDeleted .footer {
+  width: 100%;
+  background-color: #1a1a1a;
+  padding: 50px 0;
+  bottom: 0;
+  position: absolute;
+  text-align: center;
+  border-width: 1px 0 0 0;
+  border-color: #fff;
+  border-style: solid;
+}
+
+.sessionDeleted .footer {
+  width: 100%;
+  background-color: #1a1a1a;
+  padding: 50px 0;
+  bottom: 0;
+  position: absolute;
   text-align: center;
   border-width: 1px 0 0 0;
   border-color: #fff;

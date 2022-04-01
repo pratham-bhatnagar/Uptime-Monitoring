@@ -171,6 +171,17 @@ body.loggedIn .header ul li.loggedOut {
   border-color: #fff;
   border-style: solid;
 }
+.sessionCreate .footer {
+  width: 100%;
+  background-color: #1a1a1a;
+  padding: 50px 0;
+  bottom: 0;
+  position: absolute;
+  text-align: center;
+  border-width: 1px 0 0 0;
+  border-color: #fff;
+  border-style: solid;
+}
 
 .footer .copyright {
   color: #fff;
